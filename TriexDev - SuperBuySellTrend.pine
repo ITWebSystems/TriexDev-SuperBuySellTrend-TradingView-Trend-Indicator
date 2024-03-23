@@ -43,8 +43,10 @@ plotshape(sellSignal and showsignals ? dn : na, title='Sell', text='Sell', locat
 mPlot = plot(ohlc4, title='', style=plot.style_circles, linewidth=0)
 longFillColor = highlighting ? trend == 1 ? color.green : color.white : color.white
 shortFillColor = highlighting ? trend == -1 ? color.red : color.white : color.white
-fill(mPlot, upPlot, title='UpTrend Highlighter', color=longFillColor, transp=90)
-fill(mPlot, dnPlot, title='DownTrend Highlighter', color=shortFillColor, transp=90)
+longFillAdjusted = color.new(longFillColor, 90)
+shortFillAdjusted = color.new(shortFillColor, 90)
+fill(mPlot, upPlot, title='UpTrend Highlighter', color=longFillAdjusted)
+fill(mPlot, dnPlot, title='DownTrend Highlighter', color=shortFillAdjusted)
 alertcondition(buySignal, title='SBST Buy', message='SBST Buy!')
 alertcondition(sellSignal, title='SBST Sell', message='SBST Sell!')
 changeCond = trend != trend[1]
@@ -61,19 +63,20 @@ trendx := nz(trendx[1], trendx)
 trendx := trendx == -1 and close > dnx1 ? 1 : trendx == 1 and close < upx1 ? -1 : trendx
 upxPlot = plot(trendx == 1 ? upx : na, title='Up Trend', style=plot.style_linebr, linewidth=2, color=color.rgb(0, 255, 0))
 buySignalx = trendx == 1 and trendx[1] == -1
-plotshape(buySignalx ? upx : na, title='UpTrend Confirmed', location=location.absolute, style=shape.circle, size=size.tiny, color=color.rgb(0, 255, 0), transp=0)
-plotshape(buySignalx and showsignals ? upx : na, title='Buy', text='Buy', location=location.absolute, style=shape.labelup, size=size.tiny, color=color.rgb(0, 255, 0), textcolor=color.new(color.black, 0), transp=0)
+plotshape(buySignalx ? upx : na, title='UpTrend Confirmed', location=location.absolute, style=shape.circle, size=size.tiny, color=color.rgb(0, 255, 0))
+plotshape(buySignalx and showsignals ? upx : na, title='Buy', text='Buy', location=location.absolute, style=shape.labelup, size=size.tiny, color=color.rgb(0, 255, 0), textcolor=color.new(color.black, 0))
 dnxPlot = plot(trendx == 1 ? na : dnx, title='Down Trend', style=plot.style_linebr, linewidth=2, color=color.rgb(255, 0, 0))
 sellSignalx = trendx == -1 and trendx[1] == 1
-plotshape(sellSignalx ? dnx : na, title='DownTrend Confirmed', location=location.absolute, style=shape.circle, size=size.tiny, color=color.rgb(255, 0, 0), transp=0)
-plotshape(sellSignalx and showsignals ? dnx : na, title='Sell', text='Sell', location=location.absolute, style=shape.labeldown, size=size.tiny, color=color.rgb(255, 0, 0), textcolor=color.new(color.white, 0), transp=0)
+plotshape(sellSignalx ? dnx : na, title='DownTrend Confirmed', location=location.absolute, style=shape.circle, size=size.tiny, color=color.rgb(255, 0, 0))
+plotshape(sellSignalx and showsignals ? dnx : na, title='Sell', text='Sell', location=location.absolute, style=shape.labeldown, size=size.tiny, color=color.rgb(255, 0, 0), textcolor=color.new(color.white, 0))
 mxPlot = plot(ohlc4, title='', style=plot.style_circles, linewidth=0)
 longFillColorx = highlighting ? trendx == 1 ? color.green : color.white : color.white
 shortFillColorx = highlighting ? trendx == -1 ? color.red : color.white : color.white
-fill(mxPlot, upxPlot, title='UpTrend Highlighter', color=longFillColorx, transp=90)
-fill(mxPlot, dnxPlot, title='DownTrend Highlighter', color=shortFillColorx, transp=90)
+longFillAdjustedx = color.new(longFillColorx, 90)
+shortFillAdjustedx = color.new(shortFillColorx, 90)
+fill(mxPlot, upxPlot, title='UpTrend Highlighter', color=longFillAdjustedx)
+fill(mxPlot, dnxPlot, title='DownTrend Highlighter', color=shortFillAdjustedx)
 alertcondition(buySignalx, title='SBST Buy Confirm', message='SBST Buy Direction Confirmed!')
 alertcondition(sellSignalx, title='SBST Sell Confirm', message='SBST Sell Direction Confirmed!')
 changeCondx = trendx != trendx[1]
 alertcondition(changeCondx, title='SBST Direction Confirmation', message='SBST has confirmed direction!')
-
